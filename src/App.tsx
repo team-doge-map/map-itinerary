@@ -3,8 +3,6 @@ import { FC } from 'react';
 import './style.css';
 
 export const App: FC<{ name: string }> = ({ name }) => {
-  // hello world
-  // hi there
   return (
     <div>
       <h1>Hello {name}!</h1>
