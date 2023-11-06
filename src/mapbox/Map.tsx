@@ -18,5 +18,5 @@ export const Map = () => {
     })
   }, [])
 
-  return <div ref={mapContainer} style={{ height: '100vh', flex: 1 }} />
+  return <div ref={mapContainer} style={{ flex: 1 }} />
 }
