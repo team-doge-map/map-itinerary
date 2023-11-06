@@ -1,0 +1,9 @@
+.floatingPanel {
+  position: absolute;
+  z-index: 100;
+  padding: 1rem;
+  background-color: white;
+  left: 2rem;
+  top: 2rem;
+  width: 20%;
+}
