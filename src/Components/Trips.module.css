@@ -1,0 +1,17 @@
+.tripContainer {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.tripHeader {
+    text-align: center;
+}
+
+.tripList {
+    list-style: none;
+    padding: 0;
+}
