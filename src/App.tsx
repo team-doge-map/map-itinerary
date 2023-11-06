@@ -4,7 +4,7 @@ import { Map } from './mapbox/Map';
 
 export const App: FC<{ name: string }> = ({ name }) => {
   return (
-    <div>
+    <div style={{ display: 'flex'}}>
       <Map />
     </div>
   );
