@@ -5,7 +5,7 @@ import css from './App.module.css'
 
 export const App: FC<{ name: string }> = ({ name }) => {
   return (
-    <div style={css.mapContainer}>
+    <div className={css.mapContainer}>
       <Map />
     </div>
   );
