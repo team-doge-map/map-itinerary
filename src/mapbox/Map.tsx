@@ -16,19 +16,17 @@ export const Map = () => {
       container: mapContainer.current || '',
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [location.lat, location.lng], // TODO: these values should probably come from global state or context
-      zoom: 20
+      zoom: 6
     })
   }, [])
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
 
+    // https://docs.mapbox.com/mapbox-gl-js/api/map/#flyto-parameters
     map.current.flyTo({
       center: [location.lat, location.lng],
-      speed: 2, // default is 1.2 https://docs.mapbox.com/mapbox-gl-js/api/map/#flyto-parameters
     });
-
-    new mapboxgl.Marker().setLngLat([location.lat, location.lng]).addTo(map.current);
   }, [location]);
 
   return <div ref={mapContainer} style={{ height: '100vh', flex: 1 }} />

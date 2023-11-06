@@ -20,15 +20,23 @@ type Trip = {
 }
 const SomeData: Trip = {
   id: 1,
-  title: 'Doge Trip',
+  title: 'Team Doge Trip',
   details: [{
     id: 1,
-    name: 'Doge Pizza',
-    location: { lng: 44.96006944733637, lat: -93.17234701429481 },
+    name: 'Jason & PB',
+    location: { lng: 44.97633628404647, lat: -93.27108181850353 },
   }, {
     id: 2,
-    name: 'Doge, HU',
-    location: { lng: 48.260162604985524, lat: 22.06909350585474 },
+    name: 'Kayti',
+    location: { lng: 38.90738089208926, lat: -77.03849314391424 },
+  }, {
+    id: 3,
+    name: 'Dotty',
+    location: { lng: 41.99319095113293, lat: -93.55213597729579 }
+  }, {
+    id: 4,
+    name: 'Emily',
+    location: { lng: 41.502165559549056, lat: -99.38242343473735 }
   }]
 };
 
