@@ -1,14 +1,21 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import './style.css';
-import { Map } from './mapbox/Map';
+import { Trip } from './Trip/Trip';
+import { LocationContext } from './data/context/LocationContext';
 import css from './App.module.css'
 import { TeamList } from './ExampleTeam';
 
 export const App: FC<{ name: string }> = ({ name }) => {
+  const [location, setLocation] = useState({ lat: -93.17234701429481, lng: 44.96006944733637 })
+
   return (
-    <div className={css.mapContainer}>
-      <Map />
-      <TeamList />
-    </div>
+    <LocationContext.Provider value={{ location, setLocation }}>
+      <div className={css.mapContainer}>
+        <Trip />
+      </div>
+      <div className={css.teams}>
+        <TeamList />
+      </div>
+    </LocationContext.Provider>
   );
 };

@@ -1,3 +1,7 @@
 .mapContainer {
     display: flex;
 }
+.teams {
+    flex: 1;
+    margin-top: 2rem;
+}
