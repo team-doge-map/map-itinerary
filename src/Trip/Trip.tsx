@@ -1,7 +1,8 @@
 import { useContext } from "react"
 import { Map } from "../mapbox/Map"
-import { FloatingPanel } from "../shared/FloatingPanel"
+import { FloatingPanel } from "../shared/FloatingPanel/FloatingPanel"
 import { LocationContext } from "../data/context/LocationContext"
+import styles from './trip.module.css';
 
 // dummy data
 type Location = {
@@ -48,7 +49,7 @@ export const Trip = () => {
 
   return <>
     <FloatingPanel >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className={styles.trip}>
         <h2>{SomeData.title}</h2>
         {SomeData.details.map(detail => {
           return <button key={detail.id} onClick={() => onSelectDetail(detail)}>

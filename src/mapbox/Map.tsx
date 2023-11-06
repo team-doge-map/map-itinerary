@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import { LocationContext } from "../data/context/LocationContext";
+import styles from './map.module.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicGJyZWpjaGEiLCJhIjoiY2xvbjVnMzEzMTVtdDJxczJ0eHYzNzJuaSJ9.2tYGp8sOaY8gVdaG5yr9zg';
 
@@ -29,5 +30,5 @@ export const Map = () => {
     });
   }, [location]);
 
-  return <div ref={mapContainer} style={{ height: '100vh', flex: 1 }} />
+  return <div ref={mapContainer} className={styles.mapContainer} />
 }
