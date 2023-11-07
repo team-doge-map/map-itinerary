@@ -10,7 +10,7 @@ export const Trip = () => {
   const onSelectLocation = (detail: TripDetail) => {
     // TODO: highlight the button or something? maybe move the map to this location? 
     dogeMap.flyTo({
-      center: [detail.location.lng, detail.location.lat]
+      center: [detail.location.lng, detail.location.lat],
     });
   }
 

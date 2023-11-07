@@ -3,7 +3,9 @@ import { Trip } from "../data/mock/mockData";
 
 export const DogeMap = ({ trip }: { trip: Trip }) => {
   const { details } = trip;
-  const locations = details.map(detail => detail.location);
+  // These markers don't seem to stick to the right place on the map :-/
+  // const locations = details.map(detail => detail.location);
+  const locations = [];
 
   return <Map
     id='dogeMap'
@@ -11,7 +13,7 @@ export const DogeMap = ({ trip }: { trip: Trip }) => {
     initialViewState={{
       longitude: -93.17234701429481,
       latitude: 44.96006944733637,
-      zoom: 14
+      zoom: 6
     }}
     style={{ height: '100vh' }}
     mapStyle="mapbox://styles/mapbox/streets-v9"
