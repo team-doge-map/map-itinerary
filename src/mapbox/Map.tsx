@@ -21,14 +21,5 @@ export const Map = () => {
     });
   }, [])
 
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-
-    // https://docs.mapbox.com/mapbox-gl-js/api/map/#flyto-parameters
-    map.current.flyTo({
-      center: [location.lat, location.lng],
-    });
-  }, [location]);
-
-  return <div ref={mapContainer} className={styles.mapContainer} />
+  return <div ref={mapContainer} style={{ flex: 1 }} />
 }
