@@ -3,7 +3,7 @@ import './style.css';
 import { Trip } from './Trip/Trip';
 import { LocationContext } from './data/context/LocationContext';
 import css from './App.module.css'
-import { TeamList } from './ExampleTeam';
+import { TeamList } from './team/Team';
 
 export const App: FC<{ name: string }> = ({ name }) => {
   const [location, setLocation] = useState({ lat: -93.17234701429481, lng: 44.96006944733637 })
@@ -13,9 +13,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
       <div className={css.mapContainer}>
         <Trip />
       </div>
-      <div className={css.teams}>
-        <TeamList />
-      </div>
+      <TeamList />
     </LocationContext.Provider>
   );
 };

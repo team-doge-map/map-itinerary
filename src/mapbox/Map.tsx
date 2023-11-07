@@ -18,7 +18,7 @@ export const Map = () => {
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [location.lat, location.lng], // TODO: these values should probably come from global state or context
       zoom: 6
-    })
+    });
   }, [])
 
   useEffect(() => {
