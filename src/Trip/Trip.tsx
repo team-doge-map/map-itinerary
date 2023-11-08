@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Location, Trip, Event, EventLocations } from "../data/mock/mockData";
-import { DogeMap } from "../mapbox/DogeMap";
+import { DogeMap } from "../dogemaps/DogeMap";
 import { FloatingPanel } from "../shared/FloatingPanel/FloatingPanel";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { ref, getDatabase } from "firebase/database";
