@@ -18,9 +18,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
     "react-scripts": "latest"
   },
@@ -35,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,css,md}": "prettier --write"
   }
 }
