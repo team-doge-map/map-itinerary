@@ -1,19 +1,27 @@
-import { FC, useState } from 'react';
-import './style.css';
-import { Trip } from './Trip/Trip';
-import { LocationContext } from './data/context/LocationContext';
-import css from './App.module.css'
-import { TeamList } from './team/Team';
+import { FC } from "react";
+import "./style.css";
+import { Trip } from "./Trip/Trip";
+import css from "./App.module.css";
+import { TeamList } from "./team/Team";
+import { MapProvider } from "react-map-gl";
+import { Helmet } from "react-helmet";
 
 export const App: FC<{ name: string }> = ({ name }) => {
-  const [location, setLocation] = useState({ lat: -93.17234701429481, lng: 44.96006944733637 })
-
   return (
-    <LocationContext.Provider value={{ location, setLocation }}>
-      <div className={css.mapContainer}>
-        <Trip />
-      </div>
-      <TeamList />
-    </LocationContext.Provider>
+    <>
+      <Helmet>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </Helmet>
+
+      <MapProvider>
+        <div className={css.mapContainer}>
+          <Trip />
+        </div>
+        <TeamList />
+      </MapProvider>
+    </>
   );
 };
