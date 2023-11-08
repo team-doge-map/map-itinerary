@@ -1,25 +1,29 @@
-import Map, { Marker } from "react-map-gl";
-import { Trip } from "../data/mock/mockData";
-import { useMemo } from "react";
+import Map, { Marker, Popup } from "react-map-gl";
+import { Trip, TripEvent } from "../data/mock/mockData";
+import { useMemo, useState } from "react";
 import Pin from "./Pin";
 
 export const DogeMap = ({ trip }: { trip: Trip }) => {
-  // These markers don't seem to stick to the right place on the map :-/
-  const locations = [];
-  trip.itinerary.forEach((day) => {
-    day.tripEvent.forEach((event) => {
-      locations.push(event.location);
-    });
+  const [selectedEvent, setSelectedEvent] = useState<TripEvent>(null);
+  const events = [];
+  // TODO: use the selected itinerary based on the selected date?
+  trip.itinerary[0].tripEvent.forEach((event) => {
+    events.push(event);
   });
 
   const pins = useMemo(
     () =>
-      locations.map((location) => (
+      events.map((event) => (
         <Marker
-          key={`${location.lat}-${location.lng}`}
-          longitude={location.lng}
-          latitude={location.lat}
+          key={event.eventId}
+          longitude={event.location.lng}
+          latitude={event.location.lat}
           anchor="bottom"
+          onClick={(e) => {
+            e.originalEvent.preventDefault();
+            console.log("- on click called", { event });
+            setSelectedEvent(event);
+          }}
         >
           <Pin />
         </Marker>
@@ -39,6 +43,22 @@ export const DogeMap = ({ trip }: { trip: Trip }) => {
       reuseMaps={true}
     >
       {pins}
+      {selectedEvent && (
+        <Popup
+          anchor="top"
+          longitude={Number(selectedEvent.location.lng)}
+          latitude={Number(selectedEvent.location.lat)}
+          onClose={() => setSelectedEvent(null)}
+        >
+          <div>{selectedEvent.name}</div>
+          <div>{selectedEvent.location.addressLine1}</div>
+          <div>{selectedEvent.location.addressLine2}</div>
+          <div>
+            {selectedEvent.location.city}, {selectedEvent.location.state}{" "}
+            {selectedEvent.location.zip}
+          </div>
+        </Popup>
+      )}
     </Map>
   );
 };
