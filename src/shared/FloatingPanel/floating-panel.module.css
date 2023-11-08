@@ -10,6 +10,7 @@
   bottom: 0;
 
   @media screen and (min-width: 768px) {
+    min-height: 4rem;
     width: 20rem;
     height: unset;
     left: 2rem;
