@@ -1,31 +1,49 @@
-// this probably isn't the correct domain object given our design
-export type Location = {
-  lat: number;
-  lng: number;
-  addressLine1: string;
-  addressLine2?: string;
+export type Coordinates = {
+  latitude: number;
+  longitude: number;
+}
+
+export type Address = {
+  address1: string;
+  address2: string;
   city: string;
   state: string;
-  zip: number;
+  postalCode: string;
+  country: string;
 }
-export type TripEvent = {
-  eventId: number;
+
+export type Location = {
+  coordinates: Coordinates; 
+  address: Address;
   name: string;
-  location: Location;
 }
+
+export interface Event {
+  locationId: string;
+  order: number;
+  startDateTime?: string;
+  endDateTime?: string;
+}
+export interface EventLocations extends Event {
+  location: Location;
+  eventId: string;
+}
+
+
+
 export type Itinerary = {
   itineraryId: number;
   date: string;
-  tripEvent: TripEvent[];
+  events: Record<string, Event>;
 }
 export type Trip = {
-  tripId: number;
   name: string;
   startDate: string;
   endDate: string;
-  itinerary: Itinerary[];
+  coordinates: Coordinates;
+  itineraries: Record<string, Itinerary>;
 }
-
+/*
 export const SomeData: Trip = {
   tripId: 1,
   name: 'Team Doge Trip',
@@ -84,3 +102,4 @@ export const SomeData: Trip = {
     ]
   }]
 };
+*/
