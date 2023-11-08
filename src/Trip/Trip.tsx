@@ -14,6 +14,7 @@ import { DogeMap } from "../dogemaps/DogeMap";
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
   const [, setTripEvent] = useAtom(tripEventAtom);
+  const [currentPage, setCurrentPage] = useState(0);
   const [eventLocations, setEventLocations] = useState<EventLocations[]>([]);
   const database = getDatabase();
   // just grab first trip for right now.
@@ -22,11 +23,12 @@ export const TripDisplay = () => {
   const [locations, locationsLoading] = useObjectVal<Location>(
     ref(database, "locations"),
   );
+  const itineraries = trip ? Object.values(trip.itineraries) : [];
+  const currentItinerary = itineraries[currentPage];
 
   useEffect(() => {
-    if (trip && locations && !locationsLoading && !tripLoading) {
-      const itinerary = trip.itineraries.itinerary1;
-      const events = itinerary.events;
+    if (currentItinerary && locations && !locationsLoading) {
+      const events = currentItinerary.events;
       let newEventLocations: EventLocations[] = [];
       for (const [key, value] of Object.entries(events)) {
         // @ts-expect-error
@@ -39,7 +41,7 @@ export const TripDisplay = () => {
       }
       setEventLocations(newEventLocations);
     }
-  }, [trip, locations, locationsLoading, tripLoading]);
+  }, [currentItinerary, locations, locationsLoading]);
 
   const onSelectDetail = (tripEvent: EventLocations) => {
     // TODO: highlight the button or something?
@@ -52,16 +54,29 @@ export const TripDisplay = () => {
     });
   };
 
+  const onPrevious = () => {
+    const newPage = currentPage <= 0 ? 0 : currentPage - 1;
+    setCurrentPage(newPage);
+  };
+
+  const onNext = () => {
+    const newPage = currentPage >= itineraries.length - 1 ? currentPage : currentPage + 1;
+    setCurrentPage(newPage);
+  };
+
   if (tripLoading) {
     return null;
   }
+
   return (
     <>
       <FloatingPanel>
         <div className={styles.trip}>
           <div>
             <h2>{trip?.name}</h2>
-            <h3>{trip?.itineraries.itinerary1.date}</h3>
+            <h3>{currentItinerary.date}</h3>
+            <button onClick={onPrevious}>Prev</button>
+            <button onClick={onNext}>Next</button>
           </div>
           {eventLocations.map((detail) => (
             <React.Fragment key={detail.locationId}>
