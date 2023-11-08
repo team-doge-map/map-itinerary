@@ -23,11 +23,5 @@ export const App: FC<{ name: string }> = ({ name }) => {
         <TeamList />
       </MapProvider>
     </>
-
-    // foo
-
-    // try again
-
-    // bar
   );
 };
