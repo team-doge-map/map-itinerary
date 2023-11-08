@@ -9,13 +9,13 @@ export function TeamList() {
   return (
     <div className={styles.team}>
       {loading && <span>Fetching team list...</span>}
-      {!loading && snapshots && (
-        <ul>
-          {snapshots.map((value) => (
-            <li key={value.key}>{value.key}</li>
-          ))}
-        </ul>
-      )}
+      {!loading &&
+        snapshots &&
+        snapshots.map((value) => (
+          <sub key={value.key} className={styles.name}>
+            {value.key}
+          </sub>
+        ))}
     </div>
   );
 }
