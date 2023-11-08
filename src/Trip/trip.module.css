@@ -6,7 +6,8 @@
 }
 
 .details {
-  > p, h5 {
+  > p,
+  h5 {
     margin: 0;
     text-align: left;
   }

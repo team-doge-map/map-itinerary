@@ -1,7 +1,7 @@
 export type Coordinates = {
   latitude: number;
   longitude: number;
-}
+};
 
 export type Address = {
   address1: string;
@@ -10,13 +10,13 @@ export type Address = {
   state: string;
   postalCode: string;
   country: string;
-}
+};
 
 export type Location = {
-  coordinates: Coordinates; 
+  coordinates: Coordinates;
   address: Address;
   name: string;
-}
+};
 
 export interface Event {
   locationId: string;
@@ -29,20 +29,18 @@ export interface EventLocations extends Event {
   eventId: string;
 }
 
-
-
 export type Itinerary = {
   itineraryId: number;
   date: string;
   events: Record<string, Event>;
-}
+};
 export type Trip = {
   name: string;
   startDate: string;
   endDate: string;
   coordinates: Coordinates;
   itineraries: Record<string, Itinerary>;
-}
+};
 /*
 export const SomeData: Trip = {
   tripId: 1,
