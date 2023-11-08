@@ -5,6 +5,7 @@ import css from "./App.module.css";
 import { TeamList } from "./team/Team";
 import { MapProvider } from "react-map-gl";
 import { Helmet } from "react-helmet";
+import { Provider } from "jotai";
 
 export const App: FC<{ name: string }> = ({ name }) => {
   return (
@@ -16,12 +17,14 @@ export const App: FC<{ name: string }> = ({ name }) => {
         />
       </Helmet>
 
-      <MapProvider>
-        <div className={css.mapContainer}>
-          <Trip />
-        </div>
-        <TeamList />
-      </MapProvider>
+      <Provider>
+        <MapProvider>
+          <div className={css.mapContainer}>
+            <Trip />
+          </div>
+          <TeamList />
+        </MapProvider>
+      </Provider>
     </>
   );
 };

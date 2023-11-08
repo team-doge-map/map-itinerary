@@ -4,10 +4,3 @@
   gap: 1rem;
   text-align: center;
 }
-
-.details {
-  > p, h5 {
-    margin: 0;
-    text-align: left;
-  }
-}
