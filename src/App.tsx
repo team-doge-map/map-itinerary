@@ -1,18 +1,27 @@
-import { FC } from 'react';
-import './style.css';
-import { Trip } from './Trip/Trip';
-import css from './App.module.css'
-import { TeamList } from './team/Team';
-import { MapProvider } from 'react-map-gl';
+import { FC } from "react";
+import "./style.css";
+import { Trip } from "./Trip/Trip";
+import css from "./App.module.css";
+import { TeamList } from "./team/Team";
+import { MapProvider } from "react-map-gl";
+import { Helmet } from "react-helmet";
 
 export const App: FC<{ name: string }> = ({ name }) => {
-
   return (
-    <MapProvider>
-      <div className={css.mapContainer}>
-        <Trip />
-      </div>
-      <TeamList />
-    </MapProvider>
+    <>
+      <Helmet>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </Helmet>
+
+      <MapProvider>
+        <div className={css.mapContainer}>
+          <Trip />
+        </div>
+        <TeamList />
+      </MapProvider>
+    </>
   );
 };
