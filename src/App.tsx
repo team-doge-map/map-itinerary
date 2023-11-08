@@ -23,5 +23,18 @@ export const App: FC<{ name: string }> = ({ name }) => {
         <TeamList />
       </MapProvider>
     </>
+
+
+
+
+
+
+      // foo
+
+
+
+
+
+      // bar
   );
 };
