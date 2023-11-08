@@ -1,6 +1,6 @@
-import Map, { Marker, Popup } from "react-map-gl";
+import Map, { Popup } from "react-map-gl";
 import { EventLocations } from "../data/mock/mockData";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useAtom } from "jotai";
 import { tripEventAtom } from "../data/TripEventAtom";
 import { DogeMarker } from "./DogeMarker";
