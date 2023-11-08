@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { initializeApp } from "firebase/app";
 
 import { App } from "./App";
+import { Helmet } from "react-helmet";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCB9GndrB8MBPGEW0IyAzEZjQJkLPdzikI",
@@ -22,6 +23,12 @@ const root = createRoot(document.getElementById("app"));
 
 root.render(
   <StrictMode>
+    <Helmet>
+      <link
+        href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
+        rel="stylesheet"
+      />
+    </Helmet>
     <App name="StackBlitz" />
   </StrictMode>,
 );

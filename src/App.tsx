@@ -4,27 +4,32 @@ import { TripDisplay } from "./Trip/Trip";
 import css from "./App.module.css";
 import { TeamList } from "./team/Team";
 import { MapProvider } from "react-map-gl";
-import { Helmet } from "react-helmet";
 import { Provider } from "jotai";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Trips } from "./Trips/Trips";
+import { DogeMap } from "./dogemaps/DogeMap";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Trips />,
+  },
+  {
+    path: "/trips",
+    element: <TripDisplay />,
+  },
+]);
 
 export const App: FC<{ name: string }> = ({ name }) => {
   return (
-    <>
-      <Helmet>
-        <link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css"
-          rel="stylesheet"
-        />
-      </Helmet>
-
-      <Provider>
-        <MapProvider>
-          <div className={css.mapContainer}>
-            <TripDisplay />
-          </div>
+    <Provider>
+      <MapProvider>
+        <div className={css.mapContainer}>
+          <RouterProvider router={router} />
+          <DogeMap eventLocations={[]} />
           <TeamList />
-        </MapProvider>
-      </Provider>
-    </>
+        </div>
+      </MapProvider>
+    </Provider>
   );
 };

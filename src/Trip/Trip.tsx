@@ -9,7 +9,6 @@ import * as React from "react";
 import { useTrip } from "../data/useTrip";
 import { useAtom } from "jotai";
 import { tripEventAtom } from "../data/TripEventAtom";
-import { DogeMap } from "../dogemaps/DogeMap";
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
@@ -75,7 +74,6 @@ export const TripDisplay = () => {
           ))}
         </div>
       </FloatingPanel>
-      <DogeMap eventLocations={eventLocations} />
     </>
   );
 };
