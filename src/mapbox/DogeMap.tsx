@@ -3,7 +3,11 @@ import { EventLocations } from "../data/mock/mockData";
 import { useMemo, useState } from "react";
 import Pin from "./Pin";
 
-export const DogeMap = ({ eventLocations}: { eventLocations: EventLocations[]}) => {
+export const DogeMap = ({
+  eventLocations,
+}: {
+  eventLocations: EventLocations[];
+}) => {
   const [selectedEvent, setSelectedEvent] = useState<EventLocations>(null);
   const pins = useMemo(
     () =>
@@ -22,7 +26,7 @@ export const DogeMap = ({ eventLocations}: { eventLocations: EventLocations[]}) 
           <Pin />
         </Marker>
       )),
-    []
+    [],
   );
   return (
     <Map
@@ -48,7 +52,9 @@ export const DogeMap = ({ eventLocations}: { eventLocations: EventLocations[]}) 
           <div>{selectedEvent.location.address.address1}</div>
           <div>{selectedEvent.location.address.address2}</div>
           <div>
-            {selectedEvent.location.address.city}, {selectedEvent.location.address.state ?? selectedEvent.location.address.country}{" "}
+            {selectedEvent.location.address.city},{" "}
+            {selectedEvent.location.address.state ??
+              selectedEvent.location.address.country}{" "}
             {selectedEvent.location.address.postalCode}
           </div>
         </Popup>

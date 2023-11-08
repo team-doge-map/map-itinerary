@@ -1,4 +1,4 @@
-import { getDatabase, get, child, ref} from 'firebase/database';
+import { getDatabase, get, child, ref } from "firebase/database";
 
 export const fetchTeam = async () => {
   const dbRef = ref(getDatabase());
@@ -7,4 +7,4 @@ export const fetchTeam = async () => {
     return Object.keys(snapshot.val());
   }
   return undefined;
-}
+};
