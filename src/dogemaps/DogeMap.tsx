@@ -1,33 +1,25 @@
 import Map, { Marker, Popup } from "react-map-gl";
 import { EventLocations } from "../data/mock/mockData";
 import { useMemo, useState } from "react";
-import Pin from "./Pin";
+import { useAtom } from "jotai";
+import { tripEventAtom } from "../data/TripEventAtom";
+import { DogeMarker } from "./DogeMarker";
 
 export const DogeMap = ({
   eventLocations,
 }: {
   eventLocations: EventLocations[];
 }) => {
-  const [selectedEvent, setSelectedEvent] = useState<EventLocations>(null);
+  const [tripEvent, setTripEvent] = useAtom(tripEventAtom);
+
   const pins = useMemo(
     () =>
       eventLocations.map((event) => (
-        <Marker
-          key={event.locationId}
-          longitude={event.location.coordinates.longitude}
-          latitude={event.location.coordinates.latitude}
-          anchor="bottom"
-          onClick={(e) => {
-            e.originalEvent.preventDefault();
-            console.log("- on click called", { event });
-            setSelectedEvent(event);
-          }}
-        >
-          <Pin />
-        </Marker>
+        <DogeMarker data={event} callback={() => setTripEvent(event)} />
       )),
-    [],
+    [eventLocations],
   );
+
   return (
     <Map
       id="dogeMap"
@@ -41,21 +33,21 @@ export const DogeMap = ({
       reuseMaps={true}
     >
       {pins}
-      {selectedEvent && (
+      {tripEvent && (
         <Popup
           anchor="top"
-          longitude={Number(selectedEvent.location.coordinates.longitude)}
-          latitude={Number(selectedEvent.location.coordinates.latitude)}
-          onClose={() => setSelectedEvent(null)}
+          longitude={Number(tripEvent.location.coordinates.longitude)}
+          latitude={Number(tripEvent.location.coordinates.latitude)}
+          onClose={() => setTripEvent(null)}
         >
-          <div>{selectedEvent.location.name}</div>
-          <div>{selectedEvent.location.address.address1}</div>
-          <div>{selectedEvent.location.address.address2}</div>
+          <div>{tripEvent.location.name}</div>
+          <div>{tripEvent.location.address.address1}</div>
+          <div>{tripEvent.location.address.address2}</div>
           <div>
-            {selectedEvent.location.address.city},{" "}
-            {selectedEvent.location.address.state ??
-              selectedEvent.location.address.country}{" "}
-            {selectedEvent.location.address.postalCode}
+            {tripEvent.location.address.city},{" "}
+            {tripEvent.location.address.state ??
+              tripEvent.location.address.country}{" "}
+            {tripEvent.location.address.postalCode}
           </div>
         </Popup>
       )}
