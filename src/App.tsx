@@ -24,17 +24,10 @@ export const App: FC<{ name: string }> = ({ name }) => {
       </MapProvider>
     </>
 
+    // foo
 
+    // try again
 
-
-
-
-      // foo
-
-
-
-
-
-      // bar
+    // bar
   );
 };
