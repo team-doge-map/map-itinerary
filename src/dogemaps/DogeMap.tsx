@@ -2,15 +2,12 @@ import Map, { Popup } from "react-map-gl";
 import { EventLocations } from "../data/mock/mockData";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { tripEventAtom } from "../data/TripEventAtom";
+import { tripEventAtom, eventLocationsAtom } from "../data/TripEventAtom";
 import { DogeMarker } from "./DogeMarker";
 
-export const DogeMap = ({
-  eventLocations,
-}: {
-  eventLocations: EventLocations[];
-}) => {
+export const DogeMap = () => {
   const [tripEvent, setTripEvent] = useAtom(tripEventAtom);
+  const [eventLocations] = useAtom(eventLocationsAtom);
 
   const pins = useMemo(
     () =>

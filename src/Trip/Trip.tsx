@@ -8,13 +8,14 @@ import { useMap } from "react-map-gl";
 import * as React from "react";
 import { useTrip } from "../data/useTrip";
 import { useAtom } from "jotai";
-import { tripEventAtom } from "../data/TripEventAtom";
+import { tripEventAtom, eventLocationsAtom } from "../data/TripEventAtom";
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
   const [, setTripEvent] = useAtom(tripEventAtom);
+  const [eventLocations, setEventLocations] = useAtom(eventLocationsAtom);
   const [currentPage, setCurrentPage] = useState(0);
-  const [eventLocations, setEventLocations] = useState<EventLocations[]>([]);
+
   const database = getDatabase();
   // just grab first trip for right now.
   const [trip, tripLoading] = useTrip("trip1");
@@ -59,7 +60,8 @@ export const TripDisplay = () => {
   };
 
   const onNext = () => {
-    const newPage = currentPage >= itineraries.length - 1 ? currentPage : currentPage + 1;
+    const newPage =
+      currentPage >= itineraries.length - 1 ? currentPage : currentPage + 1;
     setCurrentPage(newPage);
   };
 

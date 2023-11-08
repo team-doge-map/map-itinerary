@@ -26,7 +26,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
       <MapProvider>
         <div className={css.mapContainer}>
           <RouterProvider router={router} />
-          <DogeMap eventLocations={[]} />
+          <DogeMap />
           <TeamList />
         </div>
       </MapProvider>
