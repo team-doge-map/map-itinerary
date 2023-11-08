@@ -1,23 +1,17 @@
 import Map, { Marker, Popup } from "react-map-gl";
-import { Trip, TripEvent } from "../data/mock/mockData";
+import { EventLocations } from "../data/mock/mockData";
 import { useMemo, useState } from "react";
 import Pin from "./Pin";
 
-export const DogeMap = ({ trip }: { trip: Trip }) => {
-  const [selectedEvent, setSelectedEvent] = useState<TripEvent>(null);
-  const events = [];
-  // TODO: use the selected itinerary based on the selected date?
-  trip.itinerary[0].tripEvent.forEach((event) => {
-    events.push(event);
-  });
-
+export const DogeMap = ({ eventLocations}: { eventLocations: EventLocations[]}) => {
+  const [selectedEvent, setSelectedEvent] = useState<EventLocations>(null);
   const pins = useMemo(
     () =>
-      events.map((event) => (
+      eventLocations.map((event) => (
         <Marker
-          key={event.eventId}
-          longitude={event.location.lng}
-          latitude={event.location.lat}
+          key={event.locationId}
+          longitude={event.location.coordinates.longitude}
+          latitude={event.location.coordinates.latitude}
           anchor="bottom"
           onClick={(e) => {
             e.originalEvent.preventDefault();
@@ -46,16 +40,16 @@ export const DogeMap = ({ trip }: { trip: Trip }) => {
       {selectedEvent && (
         <Popup
           anchor="top"
-          longitude={Number(selectedEvent.location.lng)}
-          latitude={Number(selectedEvent.location.lat)}
+          longitude={Number(selectedEvent.location.coordinates.longitude)}
+          latitude={Number(selectedEvent.location.coordinates.latitude)}
           onClose={() => setSelectedEvent(null)}
         >
-          <div>{selectedEvent.name}</div>
-          <div>{selectedEvent.location.addressLine1}</div>
-          <div>{selectedEvent.location.addressLine2}</div>
+          <div>{selectedEvent.location.name}</div>
+          <div>{selectedEvent.location.address.address1}</div>
+          <div>{selectedEvent.location.address.address2}</div>
           <div>
-            {selectedEvent.location.city}, {selectedEvent.location.state}{" "}
-            {selectedEvent.location.zip}
+            {selectedEvent.location.address.city}, {selectedEvent.location.address.state ?? selectedEvent.location.address.country}{" "}
+            {selectedEvent.location.address.postalCode}
           </div>
         </Popup>
       )}
