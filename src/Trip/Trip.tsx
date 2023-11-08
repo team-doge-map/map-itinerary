@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Location, Trip, Event, EventLocations } from "../data/mock/mockData";
-import { DogeMap } from "../dogemaps/DogeMap";
+import { Location, EventLocations } from "../data/mock/mockData";
 import { FloatingPanel } from "../shared/FloatingPanel/FloatingPanel";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { ref, getDatabase } from "firebase/database";
@@ -8,23 +7,13 @@ import styles from "./trip.module.css";
 import { useMap } from "react-map-gl";
 import * as React from "react";
 import { useTrip } from "../data/useTrip";
-
-const Details = ({ location }: { location: Location }) => (
-  <div className={styles.details}>
-    <h5>Address:</h5>
-    <p>{location.address.address1}</p>
-    {location.address.address2 && <p>{location.address.address2}</p>}
-    <p>
-      {location.address.city},{" "}
-      {location.address.state ?? location.address.country}{" "}
-      {location.address.postalCode}
-    </p>
-  </div>
-);
+import { useAtom } from "jotai";
+import { tripEventAtom } from "../data/TripEventAtom";
+import { DogeMap } from "../dogemaps/DogeMap";
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
-  const [expandedDetail, setExpandedDetail] = useState("");
+  const [, setTripEvent] = useAtom(tripEventAtom);
   const [eventLocations, setEventLocations] = useState<EventLocations[]>([]);
   const database = getDatabase();
   // just grab first trip for right now.
@@ -40,6 +29,7 @@ export const TripDisplay = () => {
       const events = itinerary.events;
       let newEventLocations: EventLocations[] = [];
       for (const [key, value] of Object.entries(events)) {
+        // @ts-expect-error
         const location: Location = locations[value.locationId];
         newEventLocations.push({
           ...value,
@@ -53,8 +43,8 @@ export const TripDisplay = () => {
 
   const onSelectDetail = (tripEvent: EventLocations) => {
     // TODO: highlight the button or something?
-    setExpandedDetail(tripEvent.locationId);
-    dogeMap.flyTo({
+    setTripEvent(tripEvent);
+    dogeMap?.flyTo({
       center: [
         tripEvent.location.coordinates.longitude,
         tripEvent.location.coordinates.latitude,
@@ -70,8 +60,8 @@ export const TripDisplay = () => {
       <FloatingPanel>
         <div className={styles.trip}>
           <div>
-            <h2>{trip.name}</h2>
-            <h3>{trip.itineraries.itinerary1.date}</h3>
+            <h2>{trip?.name}</h2>
+            <h3>{trip?.itineraries.itinerary1.date}</h3>
           </div>
           {eventLocations.map((detail) => (
             <React.Fragment key={detail.locationId}>
@@ -81,9 +71,6 @@ export const TripDisplay = () => {
               >
                 <h3>{detail.location.name}</h3>
               </button>
-              {expandedDetail === detail.locationId && (
-                <Details location={detail.location} />
-              )}
             </React.Fragment>
           ))}
         </div>

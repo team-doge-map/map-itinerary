@@ -17,6 +17,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
+// @ts-expect-error
 const root = createRoot(document.getElementById("app"));
 
 root.render(
