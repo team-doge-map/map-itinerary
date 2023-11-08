@@ -2,9 +2,7 @@ import Map, { Marker } from 'react-map-gl';
 import { Trip } from "../data/mock/mockData";
 
 export const DogeMap = ({ trip }: { trip: Trip }) => {
-  const { details } = trip;
   // These markers don't seem to stick to the right place on the map :-/
-  // const locations = details.map(detail => detail.location);
   const locations = [];
 
   return <Map
