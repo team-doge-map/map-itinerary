@@ -11,17 +11,6 @@ export const DogeMap = () => {
   // TODO: make this better - the eventLocations atom is used to track the pins that should appear on the map
   const [eventLocations] = useAtom(eventLocationsAtom);
 
-  const pins = useMemo(
-    () =>
-      eventLocations.map((event) => (
-        <DogeMarker
-          data={event}
-          callback={() => setPopup({ eventLocation: event })}
-        />
-      )),
-    [eventLocations],
-  );
-
   return (
     <Map
       id="dogeMap"
@@ -34,7 +23,13 @@ export const DogeMap = () => {
       mapStyle="mapbox://styles/mapbox/streets-v9"
       reuseMaps={true}
     >
-      {pins}
+      {eventLocations.map((event) => (
+        <DogeMarker
+          key={event.eventId}
+          data={event}
+          callback={() => setPopup({ eventLocation: event })}
+        />
+      ))}
       <DogePopup />
     </Map>
   );
