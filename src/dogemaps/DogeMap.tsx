@@ -21,14 +21,17 @@ export const DogeMap = () => {
 
   const handleTempMarker = ({ lat, lng }: LngLat) => {
     timer = setTimeout(() => {
-      setTempMarker({
+      const tempEvent = {
         eventId: tempEventId,
         locationId: tempLocationId,
         location: {
           coordinates: { latitude: lat, longitude: lng },
           name: "new marker",
         },
-      });
+      };
+      setTempMarker(tempEvent);
+
+      setPopup({ eventLocation: tempEvent });
     }, 400);
   };
 
