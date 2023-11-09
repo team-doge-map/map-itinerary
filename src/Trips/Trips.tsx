@@ -1,6 +1,9 @@
 import { useMap } from "react-map-gl";
 import { useTrips } from "../data/useTrips";
-import { FloatingPanel } from "../shared/FloatingPanel/FloatingPanel";
+import {
+  FloatingPanel,
+  useClosePanel,
+} from "../shared/FloatingPanel/FloatingPanel";
 import { Trip } from "../data/mock/mockData";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
@@ -10,6 +13,7 @@ export const Trips = () => {
   const { dogeMap } = useMap();
   const [, setEventLocations] = useAtom(eventLocationsAtom);
   const [, setPopup] = useAtom(popupAtom);
+  const closePanel = useClosePanel();
 
   const onSelectTrip = (tripId: string, trip?: Trip) => {
     if (!trip) return;
@@ -48,6 +52,8 @@ export const Trips = () => {
     dogeMap?.flyTo({
       center: [trip.coordinates.longitude, trip.coordinates.latitude],
     });
+
+    closePanel();
   };
   return (
     <>
