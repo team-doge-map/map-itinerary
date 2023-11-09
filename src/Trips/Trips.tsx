@@ -8,6 +8,7 @@ import { Trip } from "../data/mock/mockData";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
 import { useNavigate } from "react-router-dom";
+import styles from "./trips.module.css";
 
 export const Trips = () => {
   const [trips] = useTrips();
@@ -64,8 +65,12 @@ export const Trips = () => {
         {Object.keys(trips || {}).map((tripId) => {
           const trip = trips?.[tripId];
           return (
-            <button onClick={() => onSelectTrip(tripId, trip)} key={tripId}>
-              <h1>{trips?.[tripId].name}</h1>
+            <button
+              onClick={() => onSelectTrip(tripId, trip)}
+              key={tripId}
+              className={styles.tripButton}
+            >
+              <h2>{trips?.[tripId].name}</h2>
             </button>
           );
         })}
