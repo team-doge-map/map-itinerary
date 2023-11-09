@@ -12,6 +12,13 @@ export const useClosePanel = () => {
   }, [setIsOpen]);
 };
 
+export const useOpenPanel = () => {
+  const setIsOpen = useSetAtom(panelOpenAtom);
+  return useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+};
+
 export const FloatingPanel = ({ children }: React.PropsWithChildren) => {
   const [open, setIsOpen] = useAtom(panelOpenAtom);
   return (

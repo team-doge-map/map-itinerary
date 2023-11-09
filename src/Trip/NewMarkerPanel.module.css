@@ -1,0 +1,21 @@
+.form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.input {
+  align-self: flex-end;
+  width: 70%;
+}
+
+.save {
+  margin-top: 2rem;
+}

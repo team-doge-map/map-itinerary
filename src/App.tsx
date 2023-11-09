@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "./style.css";
-import { TripDisplay } from "./Trip/Trip";
+import { Trip } from "./Trip/Trip";
 import css from "./App.module.css";
 import { TeamList } from "./team/Team";
 import { MapProvider } from "react-map-gl";
@@ -22,7 +22,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
         <div className={css.mapContainer}>
           <Routes>
             <Route index element={<Trips />} />
-            <Route path="/trip/:tripId" element={<TripDisplay />} />
+            <Route path="/trip/:tripId" element={<Trip />} />
           </Routes>
           <DogeMap />
           <TeamList />

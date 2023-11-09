@@ -19,6 +19,12 @@ export const DogeMap = () => {
   const tempEventId = useId();
   const tempLocationId = useId();
 
+  useEffect(() => {
+    if (newMarker) {
+      setPopup({ eventLocation: newMarker });
+    }
+  }, [newMarker, setPopup]);
+
   const handleTempMarker = ({ lat, lng }: LngLat) => {
     timer = setTimeout(() => {
       setNewMarker({
@@ -26,7 +32,7 @@ export const DogeMap = () => {
         locationId: tempLocationId,
         location: {
           coordinates: { latitude: lat, longitude: lng },
-          name: "new marker",
+          name: "name",
         },
       });
     }, 400);
