@@ -1,10 +1,10 @@
-import { useList } from "react-firebase-hooks/database";
+import { useListKeys } from "react-firebase-hooks/database";
 import { ref, getDatabase } from "firebase/database";
 import styles from "./team.module.css";
 
 export function TeamList() {
   const database = getDatabase();
-  const [snapshots, loading] = useList(ref(database, "team"));
+  const [teamKeys, loading] = useListKeys(ref(database, "team"));
 
   return (
     <div className={styles.team}>

@@ -1,5 +1,17 @@
 import styles from "./floating-panel.module.css";
+import { atom } from "jotai/index";
+import { useAtom } from "jotai";
+
+export const panelOpenAtom = atom(true);
 
 export const FloatingPanel = ({ children }: React.PropsWithChildren) => {
-  return <div className={styles.floatingPanel}>{children}</div>;
+  const [open, setIsOpen] = useAtom(panelOpenAtom);
+  return (
+    <div className={`${styles.floatingPanel} ${open ? styles.open : ""}`}>
+      <button className={styles.button} onClick={() => setIsOpen(!open)}>
+        {open ? "close" : "open"}
+      </button>
+      {open && children}
+    </div>
+  );
 };
