@@ -1,15 +1,24 @@
 import Map from "react-map-gl";
-import { useMemo } from "react";
+import { useId, useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
 import { DogeMarker } from "./DogeMarker";
 import { DogePopup } from "./DogePopup";
+import * as mapboxgl from "mapbox-gl";
+import { LngLat } from "mapbox-gl";
+import { EventLocations } from "../data/mock/mockData";
+
+var timer: ReturnType<typeof setTimeout>;
 
 export const DogeMap = () => {
   // TODO: make this better - the popup atom is used to track the popup that should appear on the map for the currently selected event
   const [, setPopup] = useAtom(popupAtom);
   // TODO: make this better - the eventLocations atom is used to track the pins that should appear on the map
   const [eventLocations] = useAtom(eventLocationsAtom);
+
+  const [tempMarker, setTempMarker] = useState<EventLocations>();
+  const tempEventId = useId();
+  const tempLocationId = useId();
 
   return (
     <Map
@@ -22,6 +31,31 @@ export const DogeMap = () => {
       }}
       mapStyle="mapbox://styles/mapbox/streets-v9"
       reuseMaps={true}
+      onMouseDown={(event) => {
+        timer = setTimeout(() => {
+          setTempMarker({
+            eventId: tempEventId,
+            locationId: tempLocationId,
+            location: {
+              coordinates: {
+                latitude: event.lngLat.lat,
+                longitude: event.lngLat.lng,
+              },
+              name: "new marker",
+            },
+          });
+        }, 400);
+      }}
+      onMouseUp={() => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      }}
+      onDrag={() => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      }}
     >
       {eventLocations.map((event) => (
         <DogeMarker
@@ -30,6 +64,14 @@ export const DogeMap = () => {
           callback={() => setPopup({ eventLocation: event })}
         />
       ))}
+
+      {tempMarker ? (
+        <DogeMarker
+          key={tempMarker.eventId}
+          data={tempMarker}
+          callback={() => undefined}
+        />
+      ) : null}
       <DogePopup />
     </Map>
   );
