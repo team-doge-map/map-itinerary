@@ -56,7 +56,7 @@ export const Trips = () => {
           const trip = trips?.[tripId];
 
           return (
-            <button onClick={() => onSelectTrip(tripId, trip)}>
+            <button onClick={() => onSelectTrip(tripId, trip)} key={tripId}>
               <h1>{trips?.[tripId].name}</h1>
             </button>
           );

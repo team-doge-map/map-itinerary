@@ -59,12 +59,14 @@ export const TripDisplay = () => {
 
   const onPrevious = () => {
     const newPage = currentPage <= 0 ? 0 : currentPage - 1;
+    setPopup(null);
     setCurrentPage(newPage);
   };
 
   const onNext = () => {
     const newPage =
       currentPage >= itineraries.length - 1 ? currentPage : currentPage + 1;
+    setPopup(null);
     setCurrentPage(newPage);
   };
 
