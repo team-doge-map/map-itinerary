@@ -8,33 +8,44 @@ type AddTripForm = {
   name: string;
   startDate: string;
   endDate: string;
-  coordinates: Coordinates;
+  destination: string;
 };
 
-type Coordinates = {
-  latitude: string;
-  longitude: string;
+const access_token =
+  "access_token=pk.eyJ1IjoicGJyZWpjaGEiLCJhIjoiY2xvbjVnMzEzMTVtdDJxczJ0eHYzNzJuaSJ9.2tYGp8sOaY8gVdaG5yr9zg";
+
+const makeUrl = (destination: string) => {
+  const location = encodeURIComponent(destination);
+  console.log("location", location);
+  const mahURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?${access_token}`;
+
+  return mahURL;
 };
 
 export const AddTrip = () => {
   const database = getDatabase();
   const navigate = useNavigate();
   const { dogeMap } = useMap();
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<AddTripForm>();
-  const onSubmit: SubmitHandler<AddTripForm> = (data) => {
+
+  const onSubmit: SubmitHandler<AddTripForm> = async (data) => {
+    const url = makeUrl(data.destination);
+    const response = await fetch(url);
+    const responseObjects = await response.json();
+    const center = responseObjects?.features?.[0]?.center;
+
     const newPostKey = push(child(ref(database), "trips")).key;
     const updates = {
       [`/trips/${newPostKey}`]: {
         ...data,
         coordinates: {
-          latitude: "37.5519",
-          longitude: "126.9918",
+          latitude: center[1],
+          longitude: center[0],
         },
         itineraries: {},
       },
@@ -58,6 +69,8 @@ export const AddTrip = () => {
           <input type="date" {...register("startDate", { required: true })} />
           <p>End date:</p>
           <input type="date" {...register("endDate", { required: true })} />
+          <p>Destination:</p>
+          <input {...register("destination", { required: true })} />
           <input type="submit" />
         </form>
         <button onClick={() => backToTrips()}>Back to trips</button>
