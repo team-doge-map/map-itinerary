@@ -10,10 +10,10 @@ export function TeamList() {
     <div className={styles.team}>
       {loading && <span>Fetching team list...</span>}
       {!loading &&
-        snapshots &&
-        snapshots.map((value) => (
-          <sub key={value.key} className={styles.name}>
-            {value.key}
+        teamKeys &&
+        teamKeys.map((key) => (
+          <sub key={key} className={styles.name}>
+            {key}
           </sub>
         ))}
     </div>

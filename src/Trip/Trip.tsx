@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Location, EventLocations } from "../data/mock/mockData";
-import { FloatingPanel } from "../shared/FloatingPanel/FloatingPanel";
+import {
+  FloatingPanel,
+  useClosePanel,
+} from "../shared/FloatingPanel/FloatingPanel";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { ref, getDatabase } from "firebase/database";
 import styles from "./trip.module.css";
@@ -17,6 +20,7 @@ export const TripDisplay = () => {
   const [eventLocations, setEventLocations] = useAtom(eventLocationsAtom);
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
+  const closePanel = useClosePanel();
 
   const database = getDatabase();
   const { tripId } = useParams<"tripId">();
@@ -55,6 +59,7 @@ export const TripDisplay = () => {
         tripEvent.location.coordinates.latitude,
       ],
     });
+    closePanel();
   };
 
   const onPrevious = () => {
