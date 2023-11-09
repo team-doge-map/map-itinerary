@@ -9,7 +9,11 @@ const pinStyle = {
   fill: "#d00",
   stroke: "none",
 };
-
+const suggestionStyle = {
+  cursor: "pointer",
+  fill: "blue",
+  stroke: "none",
+};
 function Pin({ size = 20 }) {
   return (
     <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
@@ -19,3 +23,9 @@ function Pin({ size = 20 }) {
 }
 
 export default React.memo(Pin);
+
+export const DogeSuggestedPin = () => (
+  <svg height={20} viewBox="0 0 24 24" style={suggestionStyle}>
+    <path d={ICON} />
+  </svg>
+);

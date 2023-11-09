@@ -60,7 +60,6 @@ export const Trips = () => {
       <FloatingPanel>
         {Object.keys(trips || {}).map((tripId) => {
           const trip = trips?.[tripId];
-
           return (
             <button onClick={() => onSelectTrip(tripId, trip)} key={tripId}>
               <h1>{trips?.[tripId].name}</h1>
