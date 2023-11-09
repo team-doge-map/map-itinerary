@@ -1,18 +1,23 @@
-import Map, { Popup } from "react-map-gl";
-import { EventLocations } from "../data/mock/mockData";
+import Map from "react-map-gl";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { tripEventAtom, eventLocationsAtom } from "../data/TripEventAtom";
+import { eventLocationsAtom, popupAtom } from "../data/state";
 import { DogeMarker } from "./DogeMarker";
+import { DogePopup } from "./DogePopup";
 
 export const DogeMap = () => {
-  const [tripEvent, setTripEvent] = useAtom(tripEventAtom);
+  // TODO: make this better - the popup atom is used to track the popup that should appear on the map for the currently selected event
+  const [, setPopup] = useAtom(popupAtom);
+  // TODO: make this better - the eventLocations atom is used to track the pins that should appear on the map
   const [eventLocations] = useAtom(eventLocationsAtom);
 
   const pins = useMemo(
     () =>
       eventLocations.map((event) => (
-        <DogeMarker data={event} callback={() => setTripEvent(event)} />
+        <DogeMarker
+          data={event}
+          callback={() => setPopup({ eventLocation: event })}
+        />
       )),
     [eventLocations],
   );
@@ -30,24 +35,7 @@ export const DogeMap = () => {
       reuseMaps={true}
     >
       {pins}
-      {tripEvent && (
-        <Popup
-          anchor="top"
-          longitude={Number(tripEvent.location.coordinates.longitude)}
-          latitude={Number(tripEvent.location.coordinates.latitude)}
-          onClose={() => setTripEvent(null)}
-        >
-          <div>{tripEvent.location.name}</div>
-          <div>{tripEvent.location.address.address1}</div>
-          <div>{tripEvent.location.address.address2}</div>
-          <div>
-            {tripEvent.location.address.city},{" "}
-            {tripEvent.location.address.state ??
-              tripEvent.location.address.country}{" "}
-            {tripEvent.location.address.postalCode}
-          </div>
-        </Popup>
-      )}
+      <DogePopup />
     </Map>
   );
 };

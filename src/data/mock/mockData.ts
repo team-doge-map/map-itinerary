@@ -14,13 +14,13 @@ export type Address = {
 
 export type Location = {
   coordinates: Coordinates;
-  address: Address;
+  address?: Address;
   name: string;
 };
 
 export interface Event {
   locationId: string;
-  order: number;
+  order?: number;
   startDateTime?: string;
   endDateTime?: string;
 }

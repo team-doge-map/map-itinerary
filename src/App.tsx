@@ -5,27 +5,25 @@ import css from "./App.module.css";
 import { TeamList } from "./team/Team";
 import { MapProvider } from "react-map-gl";
 import { Provider } from "jotai";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Route,
+  RouteObject,
+  RouterProvider,
+  Routes,
+  createBrowserRouter,
+} from "react-router-dom";
 import { Trips } from "./Trips/Trips";
 import { DogeMap } from "./dogemaps/DogeMap";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Trips />,
-  },
-  {
-    path: "/trips",
-    element: <TripDisplay />,
-  },
-]);
 
 export const App: FC<{ name: string }> = ({ name }) => {
   return (
     <Provider>
       <MapProvider>
         <div className={css.mapContainer}>
-          <RouterProvider router={router} />
+          <Routes>
+            <Route index element={<Trips />} />
+            <Route path="/trip/:tripId" element={<TripDisplay />} />
+          </Routes>
           <DogeMap />
           <TeamList />
         </div>
