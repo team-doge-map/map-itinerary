@@ -1,12 +1,11 @@
 import Map from "react-map-gl";
-import { useId, useMemo, useState } from "react";
+import { useId, useState } from "react";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
 import { DogeMarker } from "./DogeMarker";
 import { DogePopup } from "./DogePopup";
-import * as mapboxgl from "mapbox-gl";
-import { LngLat } from "mapbox-gl";
 import { EventLocations } from "../data/mock/mockData";
+import { LngLat } from "mapbox-gl";
 
 var timer: ReturnType<typeof setTimeout>;
 
@@ -20,6 +19,23 @@ export const DogeMap = () => {
   const tempEventId = useId();
   const tempLocationId = useId();
 
+  const handleTempMarker = ({ lat, lng }: LngLat) => {
+    timer = setTimeout(() => {
+      setTempMarker({
+        eventId: tempEventId,
+        locationId: tempLocationId,
+        location: {
+          coordinates: { latitude: lat, longitude: lng },
+          name: "new marker",
+        },
+      });
+    }, 400);
+  };
+
+  const clearMouseTimer = () => {
+    if (timer) clearTimeout(timer);
+  };
+
   return (
     <Map
       id="dogeMap"
@@ -31,31 +47,9 @@ export const DogeMap = () => {
       }}
       mapStyle="mapbox://styles/mapbox/streets-v9"
       reuseMaps={true}
-      onMouseDown={(event) => {
-        timer = setTimeout(() => {
-          setTempMarker({
-            eventId: tempEventId,
-            locationId: tempLocationId,
-            location: {
-              coordinates: {
-                latitude: event.lngLat.lat,
-                longitude: event.lngLat.lng,
-              },
-              name: "new marker",
-            },
-          });
-        }, 400);
-      }}
-      onMouseUp={() => {
-        if (timer) {
-          clearTimeout(timer);
-        }
-      }}
-      onDrag={() => {
-        if (timer) {
-          clearTimeout(timer);
-        }
-      }}
+      onMouseDown={({ lngLat }) => handleTempMarker(lngLat)}
+      onMouseUp={clearMouseTimer}
+      onDrag={clearMouseTimer}
     >
       {eventLocations.map((event) => (
         <DogeMarker
