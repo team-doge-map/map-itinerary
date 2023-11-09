@@ -10,3 +10,5 @@ type Popup = {
   eventLocation: EventLocations;
 };
 export const popupAtom = atom<Popup | null>(null);
+
+export const newMarkerAtom = atom<EventLocations | null>(null);
