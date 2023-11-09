@@ -31,7 +31,8 @@ export const Trips = () => {
 
     // TODO: make this better - pin data is for the contextual popup
     setPopup({
-      linkTo: `/trips/${tripId}`,
+      linkTo: `/trip/${tripId}`,
+      state: { tripId },
       eventLocation: {
         eventId: trip.name,
         locationId: trip.name,

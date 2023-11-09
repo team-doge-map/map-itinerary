@@ -9,25 +9,20 @@ import * as React from "react";
 import { useTrip } from "../data/useTrip";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
-import { useLoaderData } from "react-router-dom";
-
-export async function loader({ params }: { params: { tripId: string } }) {
-  const [trip, tripLoading] = useTrip(params.tripId);
-
-  return { trip };
-}
+import { useNavigate, useParams } from "react-router-dom";
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
   const [, setPopup] = useAtom(popupAtom);
   const [eventLocations, setEventLocations] = useAtom(eventLocationsAtom);
   const [currentPage, setCurrentPage] = useState(0);
+  const navigate = useNavigate();
 
   const database = getDatabase();
-  // just grab first trip for right now.
-  // @ts-expect-error wtf is wrong with you react router
-  const { trip } = useLoaderData();
+  const { tripId } = useParams<"tripId">();
+
   // this is bad. but it will work for now. grab all locations. yuck.
+  const [trip, tripLoading] = useTrip(tripId || "");
   const [locations, locationsLoading] = useObjectVal<Location>(
     ref(database, "locations"),
   );
@@ -36,14 +31,12 @@ export const TripDisplay = () => {
 
   useEffect(() => {
     if (currentItinerary && locations && !locationsLoading) {
-      // @ts-expect-error React router
       const events = currentItinerary.events;
       let newEventLocations: EventLocations[] = [];
       for (const [key, value] of Object.entries(events)) {
         // @ts-expect-error
         const location: Location = locations[value.locationId];
         newEventLocations.push({
-          // @ts-expect-error wtf is this
           ...value,
           location,
           eventId: key,
@@ -75,18 +68,30 @@ export const TripDisplay = () => {
     setCurrentPage(newPage);
   };
 
-  // Not sure how react router's loader works with loading states...
-  // if (tripLoading) {
-  //   return null;
-  // }
+  const onNavigate = () => {
+    setPopup(null);
+    navigate(-1);
+  };
+
+  if (tripLoading) {
+    return null;
+  }
 
   return (
     <>
       <FloatingPanel>
         <div className={styles.trip}>
           <div>
-            <h2>{trip?.name}</h2>
-            {/** @ts-expect-error not sure*/}
+            <div className={styles.tripBreadcrumbs}>
+              <button
+                onClick={() => onNavigate()}
+                className={styles.tripBackBreacdcrumb}
+              >
+                Trips
+              </button>
+              <h2>{">"}</h2>
+              <h2>{trip?.name}</h2>
+            </div>
             <h3>{currentItinerary.date}</h3>
             <button onClick={onPrevious}>Prev</button>
             <button onClick={onNext}>Next</button>

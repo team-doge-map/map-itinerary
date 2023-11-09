@@ -5,6 +5,15 @@
   text-align: center;
 }
 
+.tripBreadcrumbs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.tripBackBreacdcrumb {
+  font-size: 1.5rem;
+}
 .details {
   > p,
   h5 {

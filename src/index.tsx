@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 
 import { App } from "./App";
 import { Helmet } from "react-helmet";
+import { BrowserRouter } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCB9GndrB8MBPGEW0IyAzEZjQJkLPdzikI",
@@ -29,6 +30,8 @@ root.render(
         rel="stylesheet"
       />
     </Helmet>
-    <App name="StackBlitz" />
+    <BrowserRouter>
+      <App name="StackBlitz" />
+    </BrowserRouter>
   </StrictMode>,
 );
