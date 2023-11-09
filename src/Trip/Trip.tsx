@@ -4,6 +4,7 @@ import {
   FloatingPanel,
   useClosePanel,
 } from "../shared/FloatingPanel/FloatingPanel";
+import { Itinerary } from "../Itinerary/Itinerary";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { ref, getDatabase } from "firebase/database";
 import styles from "./trip.module.css";
@@ -35,8 +36,13 @@ export const TripDisplay = () => {
   const currentItinerary = itineraries[currentPage];
 
   useEffect(() => {
-    if (currentItinerary && locations && !locationsLoading) {
-      const events = currentItinerary.events;
+    if (
+      currentItinerary &&
+      locations &&
+      Object.keys(locations).length !== 0 &&
+      !locationsLoading
+    ) {
+      const events = currentItinerary?.events || {};
       let newEventLocations: EventLocations[] = [];
       for (const [key, value] of Object.entries(events)) {
         // @ts-expect-error
@@ -50,18 +56,6 @@ export const TripDisplay = () => {
       setEventLocations(newEventLocations);
     }
   }, [currentItinerary, locations, locationsLoading]);
-
-  const onSelectDetail = (tripEvent: EventLocations) => {
-    // TODO: highlight the button or something?
-    setPopup({ eventLocation: tripEvent });
-    dogeMap?.flyTo({
-      center: [
-        tripEvent.location.coordinates.longitude,
-        tripEvent.location.coordinates.latitude,
-      ],
-    });
-    closePanel();
-  };
 
   const onPrevious = () => {
     const newPage = currentPage <= 0 ? 0 : currentPage - 1;
@@ -105,16 +99,7 @@ export const TripDisplay = () => {
             <button onClick={onNext}>Next</button>
           </div>
           <DirectionHub events={eventLocations} />
-          {eventLocations.map((detail) => (
-            <React.Fragment key={detail.locationId}>
-              <button
-                key={detail.locationId}
-                onClick={() => onSelectDetail(detail)}
-              >
-                <h3>{detail.location.name}</h3>
-              </button>
-            </React.Fragment>
-          ))}
+          <Itinerary locations={eventLocations} />
         </div>
       </FloatingPanel>
     </>

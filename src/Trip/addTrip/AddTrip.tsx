@@ -2,6 +2,7 @@ import { FloatingPanel } from "../../shared/FloatingPanel/FloatingPanel";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Marker, useMap } from "react-map-gl";
 import { useNavigate } from "react-router-dom";
+import styles from "./addTrip.module.css";
 import { getDatabase, ref, child, push, update } from "firebase/database";
 
 type AddTripForm = {
@@ -11,12 +12,16 @@ type AddTripForm = {
   destination: string;
 };
 
+type Itinerary = {
+  date: string;
+  location?: Location;
+};
+
 const access_token =
   "access_token=pk.eyJ1IjoicGJyZWpjaGEiLCJhIjoiY2xvbjVnMzEzMTVtdDJxczJ0eHYzNzJuaSJ9.2tYGp8sOaY8gVdaG5yr9zg";
 
 const makeUrl = (destination: string) => {
   const location = encodeURIComponent(destination);
-  console.log("location", location);
   const mahURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?${access_token}`;
 
   return mahURL;
@@ -42,12 +47,18 @@ export const AddTrip = () => {
     const newPostKey = push(child(ref(database), "trips")).key;
     const updates = {
       [`/trips/${newPostKey}`]: {
-        ...data,
+        name: data.name,
+        startDate: data.startDate,
+        endDate: data.endDate,
         coordinates: {
           latitude: center[1],
           longitude: center[0],
         },
-        itineraries: {},
+        itineraries: {
+          itinerary1: {
+            date: data.startDate,
+          },
+        },
       },
     };
 
@@ -62,18 +73,28 @@ export const AddTrip = () => {
   return (
     <>
       <FloatingPanel>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <p>Trip Name:</p>
-          <input {...register("name", { required: true })} />
-          <p>Start date:</p>
-          <input type="date" {...register("startDate", { required: true })} />
-          <p>End date:</p>
-          <input type="date" {...register("endDate", { required: true })} />
-          <p>Destination:</p>
-          <input {...register("destination", { required: true })} />
+        <form className={styles.addTripForm} onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <p>Trip Name:</p>
+            <input {...register("name", { required: true })} />
+          </div>
+          <div>
+            <p>Start date:</p>
+            <input type="date" {...register("startDate", { required: true })} />
+          </div>
+          <div>
+            <p>End date:</p>
+            <input type="date" {...register("endDate", { required: true })} />
+          </div>
+          <div>
+            <p>Destination:</p>
+            <input {...register("destination", { required: true })} />
+          </div>
           <input type="submit" />
         </form>
-        <button onClick={() => backToTrips()}>Back to trips</button>
+        <button className={styles.backToTrips} onClick={() => backToTrips()}>
+          Back to trips
+        </button>
       </FloatingPanel>
     </>
   );
