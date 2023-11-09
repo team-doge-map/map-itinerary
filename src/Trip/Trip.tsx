@@ -13,6 +13,7 @@ import { useTrip } from "../data/useTrip";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
 import { useNavigate, useParams } from "react-router-dom";
+import { DirectionHub } from "../Directions/DirectionHub";
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
@@ -103,6 +104,7 @@ export const TripDisplay = () => {
             <button onClick={onPrevious}>Prev</button>
             <button onClick={onNext}>Next</button>
           </div>
+          <DirectionHub events={eventLocations} />
           {eventLocations.map((detail) => (
             <React.Fragment key={detail.locationId}>
               <button
