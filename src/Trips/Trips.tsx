@@ -21,6 +21,7 @@ export const Trips = () => {
     // TODO: make this better - setting eventLocations as eventLocations is for the pins
     setEventLocations([
       {
+        linkTo: `/trip/${tripId}`,
         eventId: trip.name,
         locationId: trip.name,
         location: {
