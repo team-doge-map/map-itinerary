@@ -1,5 +1,5 @@
 import Map from "react-map-gl";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
 import { DogeMarker } from "./DogeMarker";
@@ -15,23 +15,26 @@ export const DogeMap = () => {
   // TODO: make this better - the eventLocations atom is used to track the pins that should appear on the map
   const [eventLocations] = useAtom(eventLocationsAtom);
 
-  const [tempMarker, setTempMarker] = useState<EventLocations>();
+  const [tempEvent, setTempEvent] = useState<EventLocations>();
   const tempEventId = useId();
   const tempLocationId = useId();
 
+  useEffect(() => {
+    if (tempEvent) {
+      setPopup({ eventLocation: tempEvent });
+    }
+  });
+
   const handleTempMarker = ({ lat, lng }: LngLat) => {
     timer = setTimeout(() => {
-      const tempEvent = {
+      setTempEvent({
         eventId: tempEventId,
         locationId: tempLocationId,
         location: {
           coordinates: { latitude: lat, longitude: lng },
           name: "new marker",
         },
-      };
-      setTempMarker(tempEvent);
-
-      setPopup({ eventLocation: tempEvent });
+      });
     }, 400);
   };
 
@@ -62,11 +65,11 @@ export const DogeMap = () => {
         />
       ))}
 
-      {tempMarker ? (
+      {tempEvent ? (
         <DogeMarker
-          key={tempMarker.eventId}
-          data={tempMarker}
-          callback={() => undefined}
+          key={tempEvent.eventId}
+          data={tempEvent}
+          callback={() => setPopup({ eventLocation: tempEvent })}
         />
       ) : null}
       <DogePopup />
