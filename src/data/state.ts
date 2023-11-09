@@ -7,6 +7,7 @@ export const eventLocationsAtom = atom<EventLocations[]>([]);
 type Popup = {
   linkTo?: string;
   state?: { [key: string]: any };
+  isSuggestion?: boolean;
   eventLocation: EventLocations;
 };
 export const popupAtom = atom<Popup | null>(null);
