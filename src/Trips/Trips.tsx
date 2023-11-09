@@ -7,6 +7,7 @@ import {
 import { Trip } from "../data/mock/mockData";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
+import { useNavigate } from "react-router-dom";
 
 export const Trips = () => {
   const [trips] = useTrips();
@@ -14,6 +15,7 @@ export const Trips = () => {
   const [, setEventLocations] = useAtom(eventLocationsAtom);
   const [, setPopup] = useAtom(popupAtom);
   const closePanel = useClosePanel();
+  const navigate = useNavigate();
 
   const onSelectTrip = (tripId: string, trip?: Trip) => {
     if (!trip) return;
@@ -66,6 +68,7 @@ export const Trips = () => {
             </button>
           );
         })}
+        <button onClick={() => navigate("/add-trip")}>Add a trip</button>
       </FloatingPanel>
     </>
   );

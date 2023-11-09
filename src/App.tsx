@@ -13,6 +13,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import { Trips } from "./Trips/Trips";
+import { AddTrip } from "./Trip/addTrip/AddTrip";
 import { DogeMap } from "./dogemaps/DogeMap";
 
 export const App: FC<{ name: string }> = ({ name }) => {
@@ -23,6 +24,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
           <Routes>
             <Route index element={<Trips />} />
             <Route path="/trip/:tripId" element={<TripDisplay />} />
+            <Route path="/add-trip" element={<AddTrip />} />
           </Routes>
           <DogeMap />
           <TeamList />
