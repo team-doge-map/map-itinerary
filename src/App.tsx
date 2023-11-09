@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "./style.css";
-import { TripDisplay } from "./Trip/Trip";
+import { TripDisplay, loader as tripLoader } from "./Trip/Trip";
 import css from "./App.module.css";
 import { TeamList } from "./team/Team";
 import { MapProvider } from "react-map-gl";
@@ -15,8 +15,10 @@ const router = createBrowserRouter([
     element: <Trips />,
   },
   {
-    path: "/trips",
+    path: "trip/:tripId",
     element: <TripDisplay />,
+    // @ts-expect-error wtf react router
+    loader: tripLoader,
   },
 ]);
 

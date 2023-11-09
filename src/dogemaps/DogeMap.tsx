@@ -1,18 +1,22 @@
 import Map, { Popup } from "react-map-gl";
-import { EventLocations } from "../data/mock/mockData";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { tripEventAtom, eventLocationsAtom } from "../data/TripEventAtom";
+import { eventLocationsAtom, popupAtom } from "../data/state";
 import { DogeMarker } from "./DogeMarker";
 
 export const DogeMap = () => {
-  const [tripEvent, setTripEvent] = useAtom(tripEventAtom);
+  // TODO: make this better - the `tripEvent` atom is used to track the currently selected event
+  const [popupData, setPopup] = useAtom(popupAtom);
+  // TODO: make this better - the eventLocations atom is used to track the pins that should appear on the map
   const [eventLocations] = useAtom(eventLocationsAtom);
 
   const pins = useMemo(
     () =>
       eventLocations.map((event) => (
-        <DogeMarker data={event} callback={() => setTripEvent(event)} />
+        <DogeMarker
+          data={event}
+          callback={() => setPopup({ eventLocation: event })}
+        />
       )),
     [eventLocations],
   );
@@ -30,21 +34,35 @@ export const DogeMap = () => {
       reuseMaps={true}
     >
       {pins}
-      {tripEvent && (
+      {popupData && (
         <Popup
           anchor="top"
-          longitude={Number(tripEvent.location.coordinates.longitude)}
-          latitude={Number(tripEvent.location.coordinates.latitude)}
-          onClose={() => setTripEvent(null)}
+          longitude={Number(
+            popupData.eventLocation.location.coordinates.longitude,
+          )}
+          latitude={Number(
+            popupData.eventLocation.location.coordinates.latitude,
+          )}
+          onClose={() => setPopup(null)}
         >
-          <div>{tripEvent.location.name}</div>
-          <div>{tripEvent.location.address.address1}</div>
-          <div>{tripEvent.location.address.address2}</div>
           <div>
-            {tripEvent.location.address.city},{" "}
-            {tripEvent.location.address.state ??
-              tripEvent.location.address.country}{" "}
-            {tripEvent.location.address.postalCode}
+            {popupData.linkTo ? (
+              <a href={popupData.linkTo}>
+                {popupData.eventLocation.location.name}
+              </a>
+            ) : (
+              <span>{popupData.eventLocation.location.name}</span>
+            )}
+          </div>
+          <div>{popupData.eventLocation.location.address?.address1}</div>
+          <div>{popupData.eventLocation.location.address?.address2}</div>
+          <div>
+            {popupData.eventLocation.location.address?.city
+              ? `${popupData.eventLocation.location.address?.city}, `
+              : ""}
+            {popupData.eventLocation.location.address?.state ??
+              popupData.eventLocation.location.address?.country}{" "}
+            {popupData.eventLocation.location.address?.postalCode}
           </div>
         </Popup>
       )}

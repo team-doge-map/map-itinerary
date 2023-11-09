@@ -8,17 +8,25 @@ import { useMap } from "react-map-gl";
 import * as React from "react";
 import { useTrip } from "../data/useTrip";
 import { useAtom } from "jotai";
-import { tripEventAtom, eventLocationsAtom } from "../data/TripEventAtom";
+import { eventLocationsAtom, popupAtom } from "../data/state";
+import { useLoaderData } from "react-router-dom";
+
+export async function loader({ params }: { params: { tripId: string } }) {
+  const [trip, tripLoading] = useTrip(params.tripId);
+
+  return { trip };
+}
 
 export const TripDisplay = () => {
   const { dogeMap } = useMap();
-  const [, setTripEvent] = useAtom(tripEventAtom);
+  const [, setPopup] = useAtom(popupAtom);
   const [eventLocations, setEventLocations] = useAtom(eventLocationsAtom);
   const [currentPage, setCurrentPage] = useState(0);
 
   const database = getDatabase();
   // just grab first trip for right now.
-  const [trip, tripLoading] = useTrip("trip1");
+  // @ts-expect-error wtf is wrong with you react router
+  const { trip } = useLoaderData();
   // this is bad. but it will work for now. grab all locations. yuck.
   const [locations, locationsLoading] = useObjectVal<Location>(
     ref(database, "locations"),
@@ -28,12 +36,14 @@ export const TripDisplay = () => {
 
   useEffect(() => {
     if (currentItinerary && locations && !locationsLoading) {
+      // @ts-expect-error React router
       const events = currentItinerary.events;
       let newEventLocations: EventLocations[] = [];
       for (const [key, value] of Object.entries(events)) {
         // @ts-expect-error
         const location: Location = locations[value.locationId];
         newEventLocations.push({
+          // @ts-expect-error wtf is this
           ...value,
           location,
           eventId: key,
@@ -45,7 +55,7 @@ export const TripDisplay = () => {
 
   const onSelectDetail = (tripEvent: EventLocations) => {
     // TODO: highlight the button or something?
-    setTripEvent(tripEvent);
+    setPopup({ eventLocation: tripEvent });
     dogeMap?.flyTo({
       center: [
         tripEvent.location.coordinates.longitude,
@@ -65,9 +75,10 @@ export const TripDisplay = () => {
     setCurrentPage(newPage);
   };
 
-  if (tripLoading) {
-    return null;
-  }
+  // Not sure how react router's loader works with loading states...
+  // if (tripLoading) {
+  //   return null;
+  // }
 
   return (
     <>
@@ -75,6 +86,7 @@ export const TripDisplay = () => {
         <div className={styles.trip}>
           <div>
             <h2>{trip?.name}</h2>
+            {/** @ts-expect-error not sure*/}
             <h3>{currentItinerary.date}</h3>
             <button onClick={onPrevious}>Prev</button>
             <button onClick={onNext}>Next</button>
