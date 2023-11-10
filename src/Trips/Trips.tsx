@@ -7,6 +7,7 @@ import {
 import { Trip } from "../data/mock/mockData";
 import { useAtom } from "jotai";
 import { eventLocationsAtom, popupAtom } from "../data/state";
+import styles from "../Trip/trip.module.css";
 import { useNavigate } from "react-router-dom";
 
 export const Trips = () => {
@@ -61,15 +62,17 @@ export const Trips = () => {
   return (
     <>
       <FloatingPanel>
-        {Object.keys(trips || {}).map((tripId) => {
-          const trip = trips?.[tripId];
-          return (
-            <button onClick={() => onSelectTrip(tripId, trip)} key={tripId}>
-              <h1>{trips?.[tripId].name}</h1>
-            </button>
-          );
-        })}
-        <button onClick={() => navigate("/add-trip")}>Add a trip</button>
+        <div className={styles.trip}>
+          {Object.keys(trips || {}).map((tripId) => {
+            const trip = trips?.[tripId];
+            return (
+              <button onClick={() => onSelectTrip(tripId, trip)} key={tripId}>
+                <h1>{trips?.[tripId].name}</h1>
+              </button>
+            );
+          })}
+          <button onClick={() => navigate("/add-trip")}>Add a trip</button>
+        </div>
       </FloatingPanel>
     </>
   );

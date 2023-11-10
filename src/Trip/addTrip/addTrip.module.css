@@ -1,0 +1,14 @@
+.addTripForm {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1rem;
+
+  & input {
+    width: 100%;
+  }
+}
+
+.backToTrips {
+  margin-top: 1rem;
+  width: 100%;
+}
