@@ -29,10 +29,11 @@ export const NewMarkerPanel = () => {
           name="name"
           value={editMarker?.location.name}
           onChange={(event) => {
-            const { name, value } = event.target;
+            const { value } = event.target;
             // @ts-ignore
             setEditMarker({
               ...editMarker,
+              // @ts-ignore
               location: { ...editMarker.location, name: value },
             });
           }}
